@@ -27,6 +27,7 @@ func Config_get() Data {
 	content, err := ioutil.ReadFile(abspath + "/config/config.json")
 	if err != nil {
 		log.Fatal("Error when opening file: ", err)
+
 	}
 
 	//unmarshall the data into `payload`
@@ -49,6 +50,7 @@ func DB_init() {
 	Database, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database, error=" + err.Error())
+		return
 	}
 	fmt.Println(Database)
 }

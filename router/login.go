@@ -23,6 +23,7 @@ func Login(c *gin.Context) {
 	token, err := account.Login(info.UserId, info.PassWord)
 	if err != nil {
 		c.String(422, "错误："+err.Error())
+		return
 	}
 	c.String(200, token)
 }

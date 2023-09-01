@@ -3,7 +3,6 @@ package tool
 import (
 	"path"
 	"runtime"
-	"strings"
 )
 
 func GetCurrentAbPath() string {
@@ -12,6 +11,5 @@ func GetCurrentAbPath() string {
 	if ok {
 		abPath = path.Dir(filename)
 	}
-	var theInd = strings.Index(abPath, "gotest")
-	return abPath[0 : theInd+6]
+	return abPath[0 : len(abPath)-5]
 }

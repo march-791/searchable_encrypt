@@ -1,0 +1,8 @@
+{
+  "mysql": {
+    "ip": "127.0.0.1",
+    "port": "3306",
+    "pass": "root3813##",
+    "database": "searchable_crypt"
+  }
+}

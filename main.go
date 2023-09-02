@@ -22,6 +22,9 @@ func main() {
 	r.POST("/upload", func(c *gin.Context) {
 		router.Upload(c)
 	})
+	r.POST("/search", func(c *gin.Context) {
+		router.Search(c)
+	})
 	r.Run() // listen and serve on 0.0.0.0:8080
 
 }

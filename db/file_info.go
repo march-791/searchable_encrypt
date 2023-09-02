@@ -28,3 +28,18 @@ func FileExist(info FileInfo) bool {
 	}
 	return true
 }
+func PathExist(userId, path string) bool {
+	var info FileInfo
+	re := Database.First(&info, "user_id = ? AND path= ? ", userId, path)
+	if re.RowsAffected == 0 {
+		return false
+	}
+	return true
+}
+func FindFileInfoByPath(userId, path string) ([]*FileInfo, error) {
+	var fileInfo []*FileInfo
+	if err := Database.Model(&FileInfo{}).Where("user_id = ? AND path = ?", userId, path).Find(&fileInfo).Error; err != nil {
+		return nil, err
+	}
+	return fileInfo, nil
+}

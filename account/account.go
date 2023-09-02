@@ -14,6 +14,11 @@ type Claims struct {
 	PassWord string
 	jwt.StandardClaims
 }
+type Claims2 struct {
+	Path     string
+	FileName string
+	jwt.StandardClaims
+}
 type Auth struct {
 	UserID string
 	Auth   bool
@@ -53,6 +58,43 @@ func ParseToken(tokenString string) (*Claims, error) {
 	}
 
 	if claims, ok := token.Claims.(*Claims); ok && token.Valid {
+		return claims, nil
+	}
+	return nil, fmt.Errorf("invalid token")
+}
+
+func GenToken2(Path, FileName string) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, Claims2{
+		Path,
+		FileName,
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Second * time.Duration(TokenExpireSeconds)).Unix(),
+		},
+	})
+	return token.SignedString([]byte(tool.DefaultTokenSecretKey))
+}
+
+// ParseToken JWT parse token
+func ParseToken2(tokenString string) (*Claims2, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &Claims2{}, func(t *jwt.Token) (interface{}, error) {
+		return []byte(tool.DefaultTokenSecretKey), nil
+	})
+	if err != nil {
+		if ve, ok := err.(*jwt.ValidationError); ok {
+			if ve.Errors&jwt.ValidationErrorMalformed != 0 {
+				return nil, fmt.Errorf("token is not available")
+			} else if ve.Errors&jwt.ValidationErrorExpired != 0 {
+				return nil, fmt.Errorf("token has expired")
+			} else if ve.Errors&jwt.ValidationErrorNotValidYet != 0 {
+				return nil, fmt.Errorf("invalid token")
+			} else {
+				return nil, fmt.Errorf("token is not available")
+			}
+		}
+		return nil, err
+	}
+
+	if claims, ok := token.Claims.(*Claims2); ok && token.Valid {
 		return claims, nil
 	}
 	return nil, fmt.Errorf("invalid token")

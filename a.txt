@@ -28,3 +28,30 @@ Any delicate you how kindness horrible outlived servants. You high bed wish help
 	}
 	hash, err := bcrypt.GenerateFromPassword([]byte(req.UserPassword), bcrypt.MinCost)
 	uuidString := uuid.NewV4().String()
+
+
+
+	func Download(token string, c *gin.Context) (ginC *gin.Context, err error) {
+    	claims, err := ParseToken2(token)
+    	if err != nil {
+    		return nil, err
+    	}
+    	path := claims.FilePath
+    	name := claims.FileName
+    	// path
+    	filePath := PREFIX
+    	if path == "" {
+    		filePath = filePath + PUBLIC
+    	}
+    	filePath = filePath + path
+    	_, _ = os.Open(filePath + "/" + name)
+    	c.Header("Content-Type", "application/octet-stream")
+    	c.Header("Content-Disposition", "attachment; filename="+name)
+    	c.Header("Content-Transfer-Encoding", "binary")
+    	c.File(filePath + "/" + name)
+    	return c, nil
+    }
+
+
+
+    

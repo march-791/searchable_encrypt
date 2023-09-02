@@ -14,6 +14,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"gonum.org/v1/gonum/mat"
 	"strconv"
 	"strings"
 	"testing"
@@ -82,6 +83,15 @@ func TestSDKSearch(t *testing.T) {
 		fmt.Println("======")
 		fmt.Println(hex.EncodeToString(byteIndex))
 		fmt.Println("-------------")
+		fmt.Println("index")
+		IndexByte, err := hex.DecodeString(hex.EncodeToString(byteIndex))
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		fmt.Println(IndexByte)
+		var I []*mat.VecDense
+		err = tool.Decode(IndexByte, &I)
+		fmt.Println(I[1].MarshalBinary())
 	}
 
 	strs := make([]string, 2)

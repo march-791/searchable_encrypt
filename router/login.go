@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gotest/account"
 	"gotest/db"
@@ -14,6 +15,7 @@ func Login(c *gin.Context) {
 	}
 	info.UserId = c.PostForm("uid")
 	info.PassWord = c.PostForm("password")
+	fmt.Println(info.UserId + "     " + info.PassWord)
 	//存在缺失的参数
 	if info.UserId == "" || info.PassWord == "" {
 		c.String(422, "缺少参数")

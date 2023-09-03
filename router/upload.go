@@ -55,7 +55,7 @@ func Upload(c *gin.Context) {
 
 	// 保存文件到本地
 	a := tool.GetCurrentAbPath() + "/file/" + file_info.UserId + "/" + file_info.Path + "/" + file.Filename
-	a = strings.Replace(a, "/", "\\", -1)
+	a = strings.Replace(a, "\\", "/", -1)
 	filestat := tool.FileState(a)
 	fmt.Println("上传文件："+a, filestat)
 	err = c.SaveUploadedFile(file, a)

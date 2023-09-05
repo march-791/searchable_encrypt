@@ -30,13 +30,15 @@ type Index []*mat.VecDense
 type IndexAndID struct {
 	Id string
 	Index
-	Date string
+	Date     string
+	FileName string
 }
 
 type Result struct {
-	Id    string
-	Score float64
-	Date  string
+	Id       string
+	Score    float64
+	Date     string
+	FileName string
 }
 
 type Results []*Result
@@ -98,6 +100,7 @@ func Search(indexs []*IndexAndID, trap Index) (results Results) {
 		result.Id = value.Id
 		result.Score = mat.Dot(value.Index[0], trap[0]) + mat.Dot(value.Index[1], trap[1])
 		result.Date = value.Date
+		result.FileName = value.FileName
 		results = append(results, result)
 	}
 	sort.Sort(results)

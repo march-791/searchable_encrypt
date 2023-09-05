@@ -67,9 +67,10 @@ func Search(c *gin.Context) {
 		url := fmt.Sprintf("%s%s%s%s%s", "http://", "123.56.185.106:",
 			"8080", "/download?token=", file_token)
 		indexAndID[i] = &search.IndexAndID{
-			Id:    strconv.Itoa(i),
-			Index: I1,
-			Date:  url,
+			Id:       strconv.Itoa(i),
+			Index:    I1,
+			Date:     url,
+			FileName: fileInfo.FileName,
 		}
 	}
 	byteTrap, err := hex.DecodeString(trapdoorString)

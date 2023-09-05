@@ -3,11 +3,13 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"gotest/db"
+	"gotest/log"
 	"gotest/router"
 )
 
 func main() {
 	db.DB_init()
+	log.LogInit()
 	r := gin.Default()
 	//注册
 	r.POST("/signup", func(c *gin.Context) {
@@ -24,6 +26,9 @@ func main() {
 	})
 	r.POST("/search", func(c *gin.Context) {
 		router.Search(c)
+	})
+	r.POST("/search_t", func(c *gin.Context) {
+		router.SearchT(c)
 	})
 	r.GET("/download", func(c *gin.Context) {
 		router.Download(c)

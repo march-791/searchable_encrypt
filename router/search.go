@@ -86,8 +86,6 @@ func Search(c *gin.Context) {
 	if len(results) > excptNum && excptNum > 0 {
 		results = results[0:excptNum]
 	}
-	fmt.Println(results)
-	fmt.Println(results[0])
 	resultBytes, err := tool.Encode(results)
 	if err != nil {
 		c.String(500, "获取结果失败")

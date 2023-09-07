@@ -9,8 +9,10 @@ import (
 	"gotest/algorithm/search"
 	"gotest/db"
 	"gotest/tool"
+	"io/ioutil"
 	"log"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -99,7 +101,11 @@ func SearchT(c *gin.Context) {
 		}
 		resultStr = hex.EncodeToString(resultBytes)
 	}
+
+	dir := tool.GetCurrentAbPath() + "/file/" + strings.Replace(file_path, "\\", "/", -1)
+	files, _ := ioutil.ReadDir(dir)
+
 	elapsedTime := int(time.Since(startTime)/time.Microsecond) / SearchTimes // duration in ms
-	log.Println(strconv.Itoa(elapsedTime))
+	log.Println(file_path, " ", len(files), int(time.Since(startTime)/time.Microsecond), ",", strconv.Itoa(elapsedTime))
 	c.String(200, resultStr)
 }
